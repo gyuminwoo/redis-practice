@@ -40,3 +40,21 @@ del user:email:1
 
 # 現在のデータベース内のすべてのキーを削除
 flushdb
+
+# Redisの活用：いいね機能
+# 普通はライブラリを使ってRedisを操作する
+# 今回はRedisの基本を学ぶために手動でコマンドを入力
+set likes:posting:1 0
+incr likes:posting:1 # 特定のキーの値を1インクリメントする
+decr likes:posting:1 # 特定のキーの値を1デクリメントする
+get likes:posting:1
+
+# Redisの活用：在庫管理
+set stocks:product:1 100
+decr stocks:product:1
+get stocks:product:1
+
+# Redisの活用：キャッシュ機能
+# データベースから取得した値をJSON形式に変換して一時的に保存
+set posting:1 "{\"title\":\"hello java\", \"contents\":\"hello java is ...\", \"author_email\":\"min1@gmail.com\" }" ex 100
+get posting:1
