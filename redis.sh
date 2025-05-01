@@ -58,3 +58,38 @@ get stocks:product:1
 # データベースから取得した値をJSON形式に変換して一時的に保存
 set posting:1 "{\"title\":\"hello java\", \"contents\":\"hello java is ...\", \"author_email\":\"min1@gmail.com\" }" ex 100
 get posting:1
+
+# list構造：Redisのlistはdeque構造
+# lpush：左端にデータを追加
+# rpush：右端にデータを追加
+# lpop：左端からデータを取り出す
+# rpop：右端からデータを取り出す
+lpush honggildongs hong1
+lpush honggildongs hong2
+rpush honggildongs hong3
+
+# listの参照
+# -1はリストの最後の要素を示す（-2は最後から2番目の要素を示す）
+lrange honggildongs 0 0 #最初の要素だけ取得
+lrange honggildongs -1 -1 #最後の要素だけ取得
+lrange honggildongs 0 -1 #最初から最後まで取得
+lrange honggildongs -2 -1 #最後から2番目∼最後まで取得
+lrange honggildongs 0 1 #最初から2番目まで取得
+
+# データの個数を取得
+llen honggildongs
+
+# TTL（有効期限）設定
+expire honggildongs 20
+
+# TTL確認
+ttl honggildongs
+
+# Redisの活用：最近訪問したぺーじ、最近閲覧した商品リスト
+lpush mypages www.naver.com
+lpush mypages www.google.com
+lpush mypages www.daum.net
+lpush mypages www.yahoo.com
+
+# 最近訪問したぺーじを3件表示
+lrange mypages 0 2
