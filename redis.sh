@@ -93,3 +93,32 @@ lpush mypages www.yahoo.com
 
 # 最近訪問したぺーじを3件表示
 lrange mypages 0 2
+
+# set構造：重複なし、順序なし
+# setに値を追加
+sadd memberlist member1
+sadd memberlist member1
+sadd memberlist member2
+
+# setの内容を確認
+smembers memberlist
+
+# setの要素数を確認
+scard memberlist
+
+# setから要素を削除
+srem memberlist member2
+
+# 特定の要素がsetに含まれているか確認
+sismember memberlist member1
+
+# Redisのset活用例：いいね機能の実装
+sadd likes:posting:1 member1
+sadd likes:posting:1 member2
+sadd likes:posting:1 member1
+
+# いいねの数を取得
+scard likes:posting:1
+
+# ユーザーがいいねを押したかどうか確認
+sismember likes:posting:1 member1
