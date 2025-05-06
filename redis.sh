@@ -122,3 +122,34 @@ scard likes:posting:1
 
 # ユーザーがいいねを押したかどうか確認
 sismember likes:posting:1 member1
+
+# zset：整列された集合
+# 要素を追加する際にscoreを指定し、scoreの昇順で自動的にソートされる
+zadd memberlist 3 member1
+zadd memberlist 4 member2
+zadd memberlist 1 member3
+zadd memberlist 2 member4
+
+# 要素の取得：基本はscoreに基づいた昇順で取得される
+zrange memberlist 0 -1
+# 降順で取得
+zrevrange memberlist 0 -1
+
+# zsetの要素を削除
+zrem memberlist member4
+
+# zrank：特定のメンバーが何番目かを取得（昇順基準）
+zrank memberlist member1
+
+# redisのzset活用例：最近閲覧した商品一覧
+# zsetを使い、timestampをscoreとして指定し、時間順で管理
+zadd recent:products 151930 pineapple
+zadd recent:products 152030 banana
+zadd recent:products 152130 orange
+zadd recent:products 152230 apple
+# 同じ商品を追加すると、score（閲覧時間）のみ更新され、重複は防がれる
+zadd recent:products 152330 apple
+# 最近閲覧した商品トップ3を取得（新しい順）
+zrevrange recent:products 0 2
+# score（閲覧時間）も含めて全てのデータを取得
+zrevrange recent:products 0 -1 withscores
