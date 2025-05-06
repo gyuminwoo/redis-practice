@@ -154,3 +154,11 @@ hincrby member:info:1 age 3
 hincrby member:info:1 age -3
 # Redisのhash活用例：頻繁に更新されるオブジェクトの値をキャッシュ
 # 文字列（JSON）でキャッシュすると、値を更新するたびにパースと再保存が必要になる
+
+
+# Redis Pub/Sub
+# Pub/Sub機能はマルチサーバー環境でチャットや通知サービスを実装する際によく使われる
+# ターミナル2や3で実行（購読側）
+subscribe test_channel
+# ターミナル1で実行（発行側）
+publish test_channel "hello, this is a test message"
